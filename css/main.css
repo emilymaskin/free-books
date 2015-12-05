@@ -1,0 +1,62 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.book_wrapper {
+  width: 636px;
+  margin: 20px auto;
+  display: flex;
+  flex-flow: row wrap;
+}
+.book {
+  width: 186px;
+  height: 438px;
+  margin: auto;
+  display: flex-box;
+}
+.book .cover {
+  width: 100%;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  margin-bottom: 10px;
+}
+.book .title {
+  font-family: Merriweather, Georgia, "Times New Roman", Times, serif;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+.book .author {
+  font-family: "proxima-nova", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.book .author span {
+  font-weight: bold;
+}
+.readers .avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  display: inline-block;
+  margin: 0 3px;
+}
+.free-btn {
+  float: right;
+  border: 1px solid #d25d3a;
+  color: #d25d3a;
+  background: #fff;
+  outline: 0;
+  padding: 4px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: background 0.3s, color 0.3s;
+}
+.free-btn:hover {
+  background: #d25d3a;
+  color: #fff;
+}
