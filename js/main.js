@@ -8,7 +8,7 @@ var freeBooks = freeBooks || (function() {
         '<button class="free-btn">Free</button>' +
         '<div class="readers"><%=readers%></div>' +
         '<div class="title"><%=title%></div>' +
-        '<div class="author">by <%=author%></div>' +
+        '<div class="author"><%=author%></div>' +
       '</div>'
     );
     var bookCount = bookList.length;
@@ -29,7 +29,7 @@ var freeBooks = freeBooks || (function() {
 
   var _renderAuthors = function(authorList) {
     var authors = authorList.map(function(a) {
-      return '<span>' + a.name + '</span>';
+      return 'by <span>' + a.name + '</span>';
     }).join(' and ');
 
     return authors;
