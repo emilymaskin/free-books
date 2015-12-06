@@ -1,67 +1,49 @@
-var freeBooks = freeBooks || (function() {
-  'use strict';
-
-  var renderBooks = function(bookList) {
-    var bookTemplate = _.template(
-      '<div class="book">' +
-        '<img class="cover" src="<%=image%>" alt="<%=title%>">' +
-        '<button class="free-btn">Free</button>' +
-        '<div class="readers"><%=readers%></div>' +
-        '<div class="title"><%=title%></div>' +
-        '<div class="author"><%=author%></div>' +
-      '</div>'
-    );
-    var bookCount = bookList.length;
-    var $bookWrapper = $('<div class="book_wrapper"/>');
-
-    for (var i=0; i < bookCount; i++) {
-      $bookWrapper.append(bookTemplate(
-        {
-          title: bookList[i].title,
-          image: bookList[i].largeImage,
-          author: _renderAuthors(bookList[i].authors),
-          readers: _renderReaders(bookList[i].readers.slice(0, 3))
+(function() {
+  var Book = React.createClass({
+    getReaders: function() {
+      return this.props.readers.slice(0, 3).map(function(r) {
+        return <img className="avatar" src={r.avatar} alt={r.name} />;
+      });
+    },
+    getAuthors: function() {
+      return this.props.author.map(function(a, i) {
+        if (i === 0) {
+          return (<span>by <span className="name">{a.name}</span></span>);
+        } else {
+          return (<span> and <span className="name">{a.name}</span></span>);
         }
-      ));
+      });
+    },
+    render: function() {
+      return (
+        <div className="book">
+          <img className="cover" src={this.props.image} alt={this.props.title} />
+          <button className="free-btn">Free</button>
+          <div className="readers">{this.getReaders()}</div>
+          <div className="title">{this.props.title}</div>
+          <div className="author">{this.getAuthors()}</div>
+        </div>
+      );
     }
-    $('body').append($bookWrapper);
-  };
-
-  var _renderAuthors = function(authorList) {
-    var authors = authorList.map(function(a) {
-      return 'by <span>' + a.name + '</span>';
-    }).join(' and ');
-
-    return authors;
-  };
-
-  var _renderReaders = function(readerList) {
-    var readerTemplate = _.template(
-      '<img class="avatar" src="<%=avatar%>" alt="<%=name%>">'
-    );
-    var readers = readerList.map(function(r) {
-      return readerTemplate(
-        {
-          name: r.name,
-          avatar: r.avatar
-        })
-    }).join('');
-
-    return readers;
-  };
-
-  return {
-    renderBooks: renderBooks
-  }
-}());
-
-$(document).ready(function() {
-  var url = 'https://api.glose.com/v1/booklists/free-books';
-
-  $.ajax({
-    url: url
-  }).done(function(resp) {
-    var bookList = resp.modules[0][1].books;
-    freeBooks.renderBooks(bookList);
   });
-});
+
+  $(document).ready(function(){
+    $.ajax({
+      url: 'https://api.glose.com/v1/booklists/free-books'
+    }).done(function(resp) {
+      var bookList = resp.modules[0][1].books;
+
+      ReactDOM.render(
+        <div className='book_wrapper'>
+          {bookList.map(function(book, i){
+            return <Book key={i}
+              title={book.title}
+              image={book.largeImage}
+              author={book.authors}
+              readers={book.readers} />;
+          })}
+        </div>, document.querySelector('.page_content')
+      );
+    });
+  });
+}());
